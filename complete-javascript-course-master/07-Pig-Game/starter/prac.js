@@ -28,35 +28,44 @@ const switchPlayer = function () {
   currentScore = 0;
   document.getElementById(`current--${activePlayer}`).textContent = 0;
   activePlayer = activePlayer === 0 ? 1 : 0;
-  document.querySelector(`.player--${0}`).classList.toggle('player--active');
-  document.querySelector(`.player--${1}`).classList.toggle('player--active');
-};
+  document.querySelector(`.player--${activePlayer}`).classList.toggle('player--active');
+  document.querySelector(`.player--${activePlayer}`).classList.toggle('player--active');
+}
 
 btnrollEl.addEventListener('click', function (){
+if (playing) {
+  const dice = Math.trunc(Math.random() * 6) + 1;
+  diceEl.classList.remove('hidden');
+  diceEl.src = `dice-${dice}.png`;
 
-const dice = Math.trunc(Math.random() * 6) + 1;
-diceEl.classList.remove('hidden');
-diceEl.src = `dice-${dice}.png`
-
-if (dice !== 1) {
-  currentScore += dice;
-  document.getElementById(`current--${activePlayer}`).textContent = currentScore;
-} else {
-switchPlayer ();
-// player0El.classList.toggle('player--active');
-// player1El.classList.toggle('player--active');
+  if (dice !== 1) {
+    currentScore += dice;
+    document.getElementById(`current--${activePlayer}`).textContent =
+      currentScore;
+  } else {
+    switchPlayer();
+  }
 }
 })
 
  btnholdEl.addEventListener('click', function () {
+if (playing) {
+  scores[activePlayer] += currentScore;
+  document.getElementById(`score--${activePlayer}`).textContent =
+    scores[activePlayer];
 
-scores[activePlayer] += currentScore;
- document.getElementById(`score--${activePlayer}`).textContent = scores[activePlayer]
- switchPlayer ();
+  if (scores[activePlayer] >= 20) {
+    playing = false;
+    diceEl.classList.add('hidden');
+    document
+      .querySelector(`.player--${activePlayer}`)
+      .classList.add('player--winner');
+    document
+      .querySelector(`.player--${activePlayer}`)
+      .classList.remove('player--active');
+  } else {
 
- if (scores[activePlayer] >= 20) {
-
- } else  {
-
- }
+    switchPlayer();
+  }
+}
  })

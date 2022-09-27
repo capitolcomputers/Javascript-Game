@@ -162,8 +162,8 @@ main {
 }
 
 .player--winner .name {
-  font-weight: 700;
   color: #c7365f;
+  font-weight: 700;
 }
 
 .hidden{
